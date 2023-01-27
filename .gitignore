@@ -51,3 +51,9 @@ MANIFEST
 # Per-project virtualenvs
 .venv*/
 .conda*/
+.isort.cfg
+tests/test.xlsx
+tests/test2 bak.xlsx
+tests/test2.xlsx
+tests/testo.xlsx
+tests/testo2.xlsx

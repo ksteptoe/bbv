@@ -7,11 +7,11 @@ import logging
 from pathlib import Path
 
 import click
-import matplotlib.pylab as plt
-import pandas as pd
 
 from ballco.api import ball_map, bump_map
-from ballco.globals import X_OFFSET, Y_OFFSET
+from ballco.Disp import Disp
+from ballco.globals import BALLS, BUMPS, MARKER, X_OFFSET, Y_OFFSET
+from ballco.Marker import Marker
 
 __author__ = "Kevin Steptoe"
 __copyright__ = "Kevin Steptoe"
@@ -49,57 +49,37 @@ def cli(
     """
     bum = bump_map(input_filename, "Bump List", output_filename, loglevel)
     ball = ball_map(input_filename, "Ball Map", output_filename, loglevel)
-    bum_ball = pd.concat([bum, ball], ignore_index=True)
-    bumps_on = True
-    balls_on = True
+    b_marker = Marker("BUMP", "b_", 105, -521, 6765, 1680, X_OFFSET, Y_OFFSET)
+    B_marker = Marker("BALL", "B_", 0, 0, 97500, 97500)
+
+    bumps = Disp("Bumps", BUMPS, bum, 10)
+    balls = Disp("Balls", BALLS, ball, 300)
+    bump_marker = Disp("BumpArea", MARKER, b_marker.marker, 5)
+    ball_marker = Disp("BallArea", MARKER, B_marker.marker, 5)
+    display_objects = (bumps, balls, bump_marker, ball_marker)
+
     action = input("b[bump] B[all] e[xpression] s[status] q[uit]?:")
     exp = ""
-    b_marker = pd.DataFrame(
-        {"Chip Ball Name": ["b_LL", "b_UR"], "x": [105, 6765], "y": [-521, 1680]}
-    )
-    b_marker.x += X_OFFSET
-    b_marker.y += Y_OFFSET
-    B_marker = pd.DataFrame(
-        {"Chip Ball Name": ["B_LL", "B_UR"], "x": [26105, 32765], "y": [64479, 66680]}
-    )
-
     while action != "q":
         if action == "b":
-            bumps_on = not bumps_on
-            print(f"Bumps On {bumps_on}")
+            bumps.toggle_state()
+            bumps.status()
         elif action == "B":
-            balls_on = not balls_on
-            print(f"Balls On {balls_on}")
+            balls.toggle_state()
+            balls.status()
         elif action == "s":
-            print(f"Bumps On {bumps_on} Balls On {balls_on} regex ->{exp}<-")
+            for o in display_objects:
+                o.status()
         elif action == "e":
             exp = input("Please Enter a Regular Expression or q[uit]?:")
             while exp != "quit" or exp != "q":
-                try:
-                    disp = bum_ball[bum_ball["Chip Ball Name"].str.match(exp)]
-                    balls = disp[disp["TYPE"] == "BALL"]
-                    bumps = disp[disp["TYPE"] == "BUMP"]
-                    types = [b_marker, B_marker]
-                    if bumps_on:
-                        types.append(bumps)
-                    if balls_on:
-                        types.append(balls)
-                    for type in types:
-                        plt.scatter(type.x, type.y)
-                        for index, row in type.iterrows():
-                            plt.annotate(row[0], (row.x, row.y + 300))
-                    plt.show()
-                except Exception as e:
-                    click.echo(
-                        click.style(
-                            "{} Error on processing regex: {}".format(str(e), exp),
-                            fg="red",
-                        )
-                    )
+                for o in display_objects:
+                    o.plot(exp)
+                o.show()
                 exp = input("Please Enter a Regular Expression or q[uit]?:")
                 if exp == "q" or exp == "quit":
                     break
-        action = input("b[bump] B[all] e[xpression] q[uit]?:")
+        action = input("b[bump] B[all] e[xpression] s[status] q[uit]?:")
 
 
 if __name__ == "__main__":
@@ -111,6 +91,18 @@ if __name__ == "__main__":
     # After installing your project with pip, users can also run this Python
     # modules as scripts via the ``-m`` flag, as defined in PEP 338::
     #
-    #     python -m ballco.ballco 42
+    #     python -m ballco.ballco
     #
     cli()
+
+# while exp != "quit" or exp != "q":
+#     try:
+#         for o in display_objects:
+#             o.show(expr)
+#     except Exception as e:
+#         click.echo(
+#             click.style(
+#                 "f{str(e)} Error on processing regex: {exp}",
+#                 fg="red"
+#             )
+#         )
