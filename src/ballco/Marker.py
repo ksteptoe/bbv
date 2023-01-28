@@ -21,8 +21,8 @@ class Marker(object):
         self.marker = pd.DataFrame(
             {
                 "Chip Ball Name": self.label(ident),
-                "x": [x_min, x_max],
-                "y": [y_min, y_max],
+                "x": [x_min, x_max, x_min, x_max],
+                "y": [y_min, y_max, y_max, y_min],
             }
         )
         self.marker.x += x_offset
@@ -38,4 +38,4 @@ class Marker(object):
 
     @staticmethod
     def label(ident: str):
-        return [ident + "_LL", ident + "_UR"]
+        return [ident + "_LL", ident + "_UR", ident + "_UL", ident + "_LR"]

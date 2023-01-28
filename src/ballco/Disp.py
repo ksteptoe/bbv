@@ -27,7 +27,7 @@ class Disp(object):
                 disp = self.df[self.df["Chip Ball Name"].str.match(expr)]
                 for index, row in disp.iterrows():
                     plt.annotate(
-                        row[0], (row.x, row.y + self.offset), fontsize=5, rotation=30
+                        row[0], (row.x, row.y + self.offset), fontsize=10, rotation=30
                     )
             if self.type == "MARKER":
                 self.size = 3

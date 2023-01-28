@@ -48,12 +48,12 @@ def cli(
     Outputs ball co-ordinates
     """
     bum = bump_map(input_filename, "Bump List", output_filename, loglevel)
-    ball = ball_map(input_filename, "Ball Map", output_filename, loglevel)
+    ball = ball_map(input_filename, "Ball Map (2)", output_filename, loglevel)
     b_marker = Marker("BUMP", "b_", 105, -521, 6765, 1680, X_OFFSET, Y_OFFSET)
-    B_marker = Marker("BALL", "B_", 0, 0, 97500, 97500)
+    B_marker = Marker("BALL", "B_", 0, 0, 9750, 9750)
 
     bumps = Disp("Bumps", BUMPS, bum, 10)
-    balls = Disp("Balls", BALLS, ball, 300)
+    balls = Disp("Balls", BALLS, ball, 30)
     bump_marker = Disp("BumpArea", MARKER, b_marker.marker, 5)
     ball_marker = Disp("BallArea", MARKER, B_marker.marker, 5)
     display_objects = (bumps, balls, bump_marker, ball_marker)
