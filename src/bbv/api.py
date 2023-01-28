@@ -6,9 +6,6 @@
 
 import logging
 import sys
-from pathlib import Path
-
-import pandas as pd
 
 from bbv import __version__  # Todo get version working
 from bbv.ball import ball_map
@@ -49,10 +46,6 @@ def bbv_api(input_filename, output_filename, loglevel):
     ball = ball_map(input_filename, "Ball Map (2)", output_filename, loglevel)
     b_marker = Marker("BUMP", "b_", 105, -521, 6765, 1680, X_OFFSET, Y_OFFSET)
     B_marker = Marker("BALL", "B_", 0, 0, 9750, 9750)
-    bum_file = Path("BumFile.pcl")
-    bum.to_pickle(bum_file)
-    test = pd.read_pickle("BumFile.pcl")
-    pd.testing.assert_frame_equal(bum, test)
 
     bumps = Disp("Bumps", BUMPS, bum, 10)
     balls = Disp("Balls", BALLS, ball, 30)

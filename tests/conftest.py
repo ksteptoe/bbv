@@ -13,19 +13,19 @@ from pytest_cases import fixture, parametrize_with_cases
 TestData = namedtuple("TestData", ["input_files", "expected_files", "produced_files"])
 
 
-def case_Dec21():
+def case_bum():
     return TestData(
-        ("Kevin_Steptoe_Expense_Report_December_2021.csv",),
-        ("Kevin_Steptoe_Expense_Report_December_2021_GOLD.xlsx",),
-        ("Kevin_Steptoe_Expense_Report_December_2021.xlsx",),
+        ("Freya_pkg_spec__release_v2.1_WIP.xlsx",),
+        ("bum.pcl",),
+        ("bum.xlsx",),
     )
 
 
-def case_june20():
+def case_balls():
     return TestData(
-        ("Kevin_Steptoe_Expense_Report_June_2020.csv",),
-        ("Kevin_Steptoe_Expense_Report_June_2020_GOLD.xlsx",),
-        ("Kevin_Steptoe_Expense_Report_June_2020.xlsx",),
+        ("Freya_pkg_spec__release_v2.1_WIP.xlsx",),
+        ("balls.pcl",),
+        ("balls.xlsx",),
     )
 
 

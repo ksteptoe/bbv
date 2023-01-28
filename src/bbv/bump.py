@@ -22,7 +22,7 @@ def bump_map(input_filename, sheet_name, output_filename, loglevel):
         df = pd.read_excel(input_filename, sheet_name=sheet_name, skiprows=4)
     except Exception as e:  # noqa: F841
         click.echo(
-            click.style("f{str(e)} Error on processing {input_filename}", fg="red")
+            click.style(f"{str(e)} Error on processing {input_filename}", fg="red")
         )
         exit(1)
 
