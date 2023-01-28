@@ -8,16 +8,16 @@ from pathlib import Path
 
 import click
 
-from ballco.api import ball_map, bump_map
-from ballco.Disp import Disp
-from ballco.globals import BALLS, BUMPS, MARKER, X_OFFSET, Y_OFFSET
-from ballco.Marker import Marker
+from bbv.api import ball_map, bump_map
+from bbv.Disp import Disp
+from bbv.globals import BALLS, BUMPS, MARKER, X_OFFSET, Y_OFFSET
+from bbv.Marker import Marker
 
 __author__ = "Kevin Steptoe"
 __copyright__ = "Kevin Steptoe"
 __license__ = "MIT"
 
-from ballco import __version__
+from bbv import __version__
 
 _logger = logging.getLogger(__name__)
 
@@ -44,7 +44,7 @@ def cli(
 ):
     """ballco
 
-    Reads an Excel file which contains ball ordering
+    Reads an Excel file which contains ball ordering and displays them in a plot
     Outputs ball co-ordinates
     """
     bum = bump_map(input_filename, "Bump List", output_filename, loglevel)
@@ -94,15 +94,3 @@ if __name__ == "__main__":
     #     python -m ballco.ballco
     #
     cli()
-
-# while exp != "quit" or exp != "q":
-#     try:
-#         for o in display_objects:
-#             o.show(expr)
-#     except Exception as e:
-#         click.echo(
-#             click.style(
-#                 "f{str(e)} Error on processing regex: {exp}",
-#                 fg="red"
-#             )
-#         )

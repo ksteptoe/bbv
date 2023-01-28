@@ -11,8 +11,8 @@ import click
 import pandas as pd
 
 # Todo get version working
-# from ballco import __version__
-from ballco.globals import PITCH, X_BUMP_OFFSET, X_OFFSET, Y_BUMP_OFFSET, Y_OFFSET
+# from bbv import __version__
+from bbv.globals import PITCH, X_BUMP_OFFSET, X_OFFSET, Y_BUMP_OFFSET, Y_OFFSET
 
 _logger = logging.getLogger(__name__)
 

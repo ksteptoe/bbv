@@ -1,27 +1,27 @@
 .. These are examples of badges you might want to add to your README:
    please update the URLs accordingly
 
-    .. image:: https://api.cirrus-ci.com/github/<USER>/ballco.svg?branch=main
+    .. image:: https://api.cirrus-ci.com/github/<USER>/bbv.svg?branch=main
         :alt: Built Status
-        :target: https://cirrus-ci.com/github/<USER>/ballco
-    .. image:: https://readthedocs.org/projects/ballco/badge/?version=latest
+        :target: https://cirrus-ci.com/github/<USER>/bbv
+    .. image:: https://readthedocs.org/projects/bbv/badge/?version=latest
         :alt: ReadTheDocs
-        :target: https://ballco.readthedocs.io/en/stable/
-    .. image:: https://img.shields.io/coveralls/github/<USER>/ballco/main.svg
+        :target: https://bbv.readthedocs.io/en/stable/
+    .. image:: https://img.shields.io/coveralls/github/<USER>/bbv/main.svg
         :alt: Coveralls
-        :target: https://coveralls.io/r/<USER>/ballco
-    .. image:: https://img.shields.io/pypi/v/ballco.svg
+        :target: https://coveralls.io/r/<USER>/bbv
+    .. image:: https://img.shields.io/pypi/v/bbv.svg
         :alt: PyPI-Server
-        :target: https://pypi.org/project/ballco/
-    .. image:: https://img.shields.io/conda/vn/conda-forge/ballco.svg
+        :target: https://pypi.org/project/bbv/
+    .. image:: https://img.shields.io/conda/vn/conda-forge/bbv.svg
         :alt: Conda-Forge
-        :target: https://anaconda.org/conda-forge/ballco
-    .. image:: https://pepy.tech/badge/ballco/month
+        :target: https://anaconda.org/conda-forge/bbv
+    .. image:: https://pepy.tech/badge/bbv/month
         :alt: Monthly Downloads
-        :target: https://pepy.tech/project/ballco
+        :target: https://pepy.tech/project/bbv
     .. image:: https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Twitter
         :alt: Twitter
-        :target: https://twitter.com/ballco
+        :target: https://twitter.com/bbv
 
 .. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
     :alt: Project generated with PyScaffold
@@ -30,14 +30,14 @@
 |
 
 ======
-ballco
+bbv
 ======
 
 
-    Add a short description here!
+    A Ball and Bump Graphical Viewer
 
 
-A longer description of your project goes here...
+A graphical viewer to visualise Balls and Bumps and the relationship between them.
 
 
 .. _pyscaffold-notes:
