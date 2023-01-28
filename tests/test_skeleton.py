@@ -1,6 +1,6 @@
 import pytest
 
-from ballco.skeleton import fib, main
+from bbv.cli import fib, main
 
 __author__ = "Kevin Steptoe"
 __copyright__ = "Kevin Steptoe"
