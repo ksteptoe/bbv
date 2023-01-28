@@ -6,28 +6,25 @@ class Marker(object):
         self,
         name: str,
         ident: str,
-        x_min: int,
-        y_min: int,
-        x_max: int,
-        y_max: int,
+        df: pd.DataFrame,
         x_offset: int = 0,
         y_offset: int = 0,
+        halo: int = 5,
     ):
         self.name = name
-        self.x_min = x_min
-        self.y_min = y_min
-        self.x_max = x_max
-        self.y_max = y_max
+        self.x_min = df.x.min() - halo
+        self.y_min = df.y.min() - halo
+        self.x_max = df.x.max() + halo
+        self.y_max = df.y.max() + halo
         self.marker = pd.DataFrame(
             {
                 "Chip Ball Name": self.label(ident),
-                "x": [x_min, x_max, x_min, x_max],
-                "y": [y_min, y_max, y_max, y_min],
+                "x": [self.x_min, self.x_max, self.x_min, self.x_max],
+                "y": [self.y_min, self.y_max, self.y_max, self.y_min],
             }
         )
         self.marker.x += x_offset
         self.marker.y += y_offset
-        # Todo add two other marker co-ords
 
     def __repr__(self):
         return f"{self.marker}"

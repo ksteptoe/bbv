@@ -11,7 +11,7 @@ from bbv import __version__  # Todo get version working
 from bbv.ball import ball_map
 from bbv.bump import bump_map
 from bbv.Disp import Disp
-from bbv.globals import BALLS, BUMPS, MARKER, X_OFFSET, Y_OFFSET
+from bbv.globals import BALLS, BUMPS, MARKER
 from bbv.Marker import Marker
 
 _logger = logging.getLogger(__name__)
@@ -44,13 +44,13 @@ def bbv_api(input_filename, output_filename, loglevel):
 
     bum = bump_map(input_filename, "Bump List", output_filename, loglevel)
     ball = ball_map(input_filename, "Ball Map (2)", output_filename, loglevel)
-    b_marker = Marker("BUMP", "b_", 105, -521, 6765, 1680, X_OFFSET, Y_OFFSET)
-    B_marker = Marker("BALL", "B_", 0, 0, 9750, 9750)
+    b_marker = Marker("BUMP", "b_", bum, halo=5)
+    B_marker = Marker("BALL", "B_", ball, halo=5)
 
     bumps = Disp("Bumps", BUMPS, bum, 10)
     balls = Disp("Balls", BALLS, ball, 30)
-    bump_marker = Disp("BumpArea", MARKER, b_marker.marker, 5)
-    ball_marker = Disp("BallArea", MARKER, B_marker.marker, 5)
+    bump_marker = Disp("BumpArea", MARKER, b_marker.marker, 20)
+    ball_marker = Disp("BallArea", MARKER, B_marker.marker, 20)
     display_objects = (bumps, balls, bump_marker, ball_marker)
 
     action = input("b[bump] B[all] e[xpression] s[status] q[uit]?:")
