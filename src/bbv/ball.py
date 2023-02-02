@@ -5,7 +5,7 @@ from bbv.globals import PITCH
 
 
 def ball_map(input_filename, sheet_name, output_filename, loglevel):
-    """ballco
+    """ball_map
 
     Args:
        input_filename:
@@ -47,8 +47,8 @@ def ball_map(input_filename, sheet_name, output_filename, loglevel):
 
     flat["RowOrd"] = flat["Row"].apply(f)
     flat["ColOrd"] = flat["Col"] - 1
-    flat["y"] = flat["RowOrd"] * PITCH  # + Y_OFFSET
-    flat["x"] = flat["ColOrd"] * PITCH  # + X_OFFSET
+    flat["y"] = flat["RowOrd"] * PITCH
+    flat["x"] = flat["ColOrd"] * PITCH
     flat.rename(columns={0: "Chip Ball Name"}, inplace=True)
     odf = flat[["Chip Ball Name", "x", "y"]].copy()
     odf.loc[:, ["TYPE"]] = "BALL"

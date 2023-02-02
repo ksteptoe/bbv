@@ -7,7 +7,7 @@
 import logging
 import sys
 
-from bbv import __version__  # Todo get version working
+from bbv import __version__
 from bbv.ball import ball_map
 from bbv.bump import bump_map
 from bbv.Disp import Disp
@@ -41,9 +41,10 @@ def bbv_api(input_filename, output_filename, loglevel):
     """
     setup_logging(loglevel)
     _logger.info(f"Version: {__version__}")
-
     bum = bump_map(input_filename, "Bump List", output_filename, loglevel)
     ball = ball_map(input_filename, "Ball Map (2)", output_filename, loglevel)
+    # bum.to_pickle('bum.pcl')
+    # ball.to_pickle('ball.pcl')
     b_marker = Marker("BUMP", "b_", bum, halo=5)
     B_marker = Marker("BALL", "B_", ball, halo=5)
 
