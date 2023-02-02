@@ -67,7 +67,7 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
         "SER": "D2D.*",
         "XTAL": "XTAL_[NP]",
         "MISC": "EN_PWR|WAKE_UP|IRQ|RST|TEST_EN",
-        "ClOCK": "CLK_.*",
+        "CLK": "CLK_.*",
     }
     exp = ""
     while action != "q":
@@ -93,7 +93,7 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
             exp = input(
                 "Please Enter a group RF IQ RXG0 RXG1 DDR"
                 "JTAG CSPI SER"
-                "XTAL MISC ClOCK or q[uit]?:"
+                "XTAL MISC CLK or q[uit]?:"
             )
             while exp != "quit" or exp != "q":
                 regex = group[exp]
@@ -102,7 +102,7 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
                 o.show()
                 exp = input(
                     "Please Enter a group RF IQ RXG0 RXG1 DDR JTAG "
-                    "CSPI SER XTAL MISC ClOCK or q[uit]?:"
+                    "CSPI SER XTAL MISC CLK or q[uit]?:"
                 )
                 if exp == "q" or exp == "quit":
                     break
