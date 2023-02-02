@@ -55,7 +55,20 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
     ball_marker = Disp("BallArea", MARKER, B_marker.marker, 20)
     display_objects = (bumps, balls, bump_marker, ball_marker)
 
-    action = input("b[bump] B[all] e[xpression] s[status] q[uit]?:")
+    action = input("b[bump] B[all] e[xpression] g[roup] s[status] q[uit]?:")
+    group = {
+        "RF": "TRX[0-3]_[TR]X.*",
+        "IQ": "TRX[0-3]_ANA_[TR]X_[IQ][PN]",
+        "RXG0": "RX_GAIN_.*0|EN_RX.*0|EN_TX.*0",
+        "RXG1": "RX_GAIN_.*1|EN_RX.*1|EN_TX.*1",
+        "DDR": r"GPIO\[[8-9]\]|GPIO\[1[0-5]\]|IQ_DATA.*|IQ_CLK_.*",
+        "JTAG": "T[CMD][KSIO]",
+        "CSPI": "CFG_.*",
+        "SER": "D2D.*",
+        "XTAL": "XTAL_[NP]",
+        "MISC": "EN_PWR|WAKE_UP|IRQ|RST|TEST_EN",
+        "ClOCK": "CLK_.*",
+    }
     exp = ""
     while action != "q":
         if action == "b":
@@ -76,6 +89,23 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
                 exp = input("Please Enter a Regular Expression or q[uit]?:")
                 if exp == "q" or exp == "quit":
                     break
-        action = input("b[bump] B[all] e[xpression] s[status] q[uit]?:")
+        elif action == "g":
+            exp = input(
+                "Please Enter a group RF IQ RXG0 RXG1 DDR"
+                "JTAG CSPI SER"
+                "XTAL MISC ClOCK or q[uit]?:"
+            )
+            while exp != "quit" or exp != "q":
+                regex = group[exp]
+                for o in display_objects:
+                    o.plot(regex)
+                o.show()
+                exp = input(
+                    "Please Enter a group RF IQ RXG0 RXG1 DDR JTAG "
+                    "CSPI SER XTAL MISC ClOCK or q[uit]?:"
+                )
+                if exp == "q" or exp == "quit":
+                    break
+        action = input("b[bump] B[all] e[xpression] g[roup] s[status] q[uit]?:")
 
     _logger.info("Script ends here")
