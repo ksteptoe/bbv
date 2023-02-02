@@ -22,12 +22,22 @@ _logger = logging.getLogger(__name__)
 @click.argument("input_filename", type=click.Path(exists=True, readable=True))
 @click.argument("output_filename", type=click.Path(), required=False)
 @click.version_option(__version__, "--version")
+@click.option(
+    "pcb",
+    "-p",
+    "--pcb",
+    is_flag=True,
+    show_default=True,
+    default=False,
+    help="PCB View flipped around x axis",
+)
 @click.option("-v", "--verbose", "loglevel", type=int, flag_value=logging.INFO)
 @click.option("-vv", "--very_verbose", "loglevel", type=int, flag_value=logging.DEBUG)
 def cli(
     input_filename: Path,
     sheet_name: str = None,
     output_filename: str = None,
+    pcb: bool = False,
     loglevel=logging.INFO,
 ):
     """bbv
@@ -35,7 +45,7 @@ def cli(
     Reads an Excel file which contains ball ordering and displays them in a plot
     Outputs ball co-ordinates
     """
-    bbv_api(input_filename, output_filename, loglevel)
+    bbv_api(input_filename, output_filename, pcb, loglevel)
 
 
 if __name__ == "__main__":

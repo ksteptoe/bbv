@@ -12,6 +12,7 @@ def bump_map(input_filename, sheet_name, output_filename, loglevel):
        output_filename:
        sheet_name:
        output_filename:
+       pcb:
        loglevel: int
     """
 

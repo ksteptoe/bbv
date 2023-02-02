@@ -29,20 +29,21 @@ def setup_logging(loglevel):
     )
 
 
-def bbv_api(input_filename, output_filename, loglevel):
+def bbv_api(input_filename, output_filename, pcb, loglevel):
     """Wrapper allowing :func: $(package)
     to be called with string arguments in a CLI fashion
 
      Args:
         input_filename:
         output_filename:
+        pcb: bool
         loglevel: int
 
     """
     setup_logging(loglevel)
     _logger.info(f"Version: {__version__}")
-    bum = bump_map(input_filename, "Bump List", output_filename, loglevel)
-    ball = ball_map(input_filename, "Ball Map (2)", output_filename, loglevel)
+    bum = bump_map(input_filename, "Bump List", output_filename, pcb, loglevel)
+    ball = ball_map(input_filename, "Ball Map (2)", output_filename, pcb, loglevel)
     # bum.to_pickle('bum.pcl')
     # ball.to_pickle('ball.pcl')
     b_marker = Marker("BUMP", "b_", bum, halo=5)

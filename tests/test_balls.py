@@ -29,7 +29,7 @@ def case_v21WIP():
 
 
 @fixture
-@parametrize_with_cases("td")
+@parametrize_with_cases("td", cases=".")
 def build_env(td, datadir_copy):
     for l_of_files in [td.input_files, td.expected_files]:
         for f in l_of_files:
