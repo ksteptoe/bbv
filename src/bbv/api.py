@@ -1,7 +1,7 @@
 # ---- Python API ----
 # The functions defined in this section can be imported by users in their
 # Python scripts/interactive interpreter, e.g. via
-# `from my_test_project.ballco import ballco`,
+# `from my_test_project.bbv import bbv`,
 # when using this Python module as a library.
 
 import logging
@@ -11,7 +11,7 @@ from bbv import __version__
 from bbv.ball import ball_map
 from bbv.bump import bump_map
 from bbv.Disp import Disp
-from bbv.globals import BALLS, BUMPS, MARKER
+from bbv.globals import BALLS, BUMPS, GROUP, MARKER
 from bbv.Marker import Marker
 
 _logger = logging.getLogger(__name__)
@@ -56,19 +56,7 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
     display_objects = (bumps, balls, bump_marker, ball_marker)
 
     action = input("b[bump] B[all] e[xpression] g[roup] s[status] q[uit]?:")
-    group = {
-        "RF": "TRX[0-3]_[TR]X.*",
-        "IQ": "TRX[0-3]_ANA_[TR]X_[IQ][PN]",
-        "RXG0": "RX_GAIN_.*0|EN_RX.*0|EN_TX.*0",
-        "RXG1": "RX_GAIN_.*1|EN_RX.*1|EN_TX.*1",
-        "DDR": r"GPIO\[[8-9]\]|GPIO\[1[0-5]\]|IQ_DATA.*|IQ_CLK_.*",
-        "JTAG": "T[CMD][KSIO]",
-        "CSPI": "CFG_.*",
-        "SER": "D2D.*",
-        "XTAL": "XTAL_[NP]",
-        "MISC": "EN_PWR|WAKE_UP|IRQ|RST|TEST_EN",
-        "CLK": "CLK_.*",
-    }
+
     exp = ""
     while action != "q":
         if action == "b":
@@ -91,18 +79,20 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
                     break
         elif action == "g":
             exp = input(
-                "Please Enter a group RF IQ RXG0 RXG1 DDR"
-                "JTAG CSPI SER"
-                "XTAL MISC CLK or q[uit]?:"
+                "Please Enter a group" + " ".join(list(GROUP.keys())) + " or q[uit]?:"
             )
             while exp != "quit" or exp != "q":
-                regex = group[exp]
-                for o in display_objects:
-                    o.plot(regex)
-                o.show()
+                try:
+                    regex = GROUP[exp]
+                    for o in display_objects:
+                        o.plot(regex)
+                    o.show()
+                except KeyError:
+                    print(f"Invalid group {exp}")
                 exp = input(
-                    "Please Enter a group RF IQ RXG0 RXG1 DDR JTAG "
-                    "CSPI SER XTAL MISC CLK or q[uit]?:"
+                    "Please Enter a group"
+                    + " ".join(list(GROUP.keys()))
+                    + " or q[uit]?:"
                 )
                 if exp == "q" or exp == "quit":
                     break
