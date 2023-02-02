@@ -42,8 +42,8 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
     """
     setup_logging(loglevel)
     _logger.info(f"Version: {__version__}")
-    bum = bump_map(input_filename, "Bump List", output_filename, pcb, loglevel)
-    ball = ball_map(input_filename, "Ball Map (2)", output_filename, pcb, loglevel)
+    bum = bump_map(input_filename, "Bump List", output_filename, loglevel)
+    ball = ball_map(input_filename, "Ball Map (2)", output_filename, loglevel)
     # bum.to_pickle('bum.pcl')
     # ball.to_pickle('ball.pcl')
     b_marker = Marker("BUMP", "b_", bum, halo=5)
