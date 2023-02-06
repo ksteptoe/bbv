@@ -31,12 +31,13 @@ _logger = logging.getLogger(__name__)
     default=False,
     help="PCB View flipped around x axis",
 )
+@click.option("-g", "--group", "group", type=click.File(mode="r"), required=False)
 @click.option("-v", "--verbose", "loglevel", type=int, flag_value=logging.INFO)
 @click.option("-vv", "--very_verbose", "loglevel", type=int, flag_value=logging.DEBUG)
 def cli(
     input_filename: Path,
-    sheet_name: str = None,
     output_filename: str = None,
+    group: click.File = None,
     pcb: bool = False,
     loglevel=logging.INFO,
 ):
@@ -45,7 +46,7 @@ def cli(
     Reads an Excel file which contains ball ordering and displays them in a plot
     Outputs ball co-ordinates
     """
-    bbv_api(input_filename, output_filename, pcb, loglevel)
+    bbv_api(input_filename, output_filename, pcb, group, loglevel)
 
 
 if __name__ == "__main__":

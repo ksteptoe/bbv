@@ -7,6 +7,8 @@
 import logging
 import sys
 
+import yaml
+
 from bbv import __version__
 from bbv.ball import ball_map
 from bbv.bump import bump_map
@@ -29,7 +31,7 @@ def setup_logging(loglevel):
     )
 
 
-def bbv_api(input_filename, output_filename, pcb, loglevel):
+def bbv_api(input_filename, output_filename, pcb, group_file, loglevel):
     """Wrapper allowing :func: $(package)
     to be called with string arguments in a CLI fashion
 
@@ -37,15 +39,22 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
         input_filename:
         output_filename:
         pcb: bool
+        group_file: click.File
         loglevel: int
 
     """
     setup_logging(loglevel)
     _logger.info(f"Version: {__version__}")
+
+    if group_file is not None:
+        try:
+            group = yaml.safe_load(group_file)
+        except yaml.YAMLError as exc:
+            print(exc)
+    else:
+        group = GROUP
     bum = bump_map(input_filename, "Bump List", output_filename, loglevel)
     ball = ball_map(input_filename, "Ball Map (2)", output_filename, loglevel)
-    # bum.to_pickle('bum.pcl')
-    # ball.to_pickle('ball.pcl')
     b_marker = Marker("BUMP", "b_", bum, halo=5)
     B_marker = Marker("BALL", "B_", ball, halo=5)
 
@@ -79,19 +88,21 @@ def bbv_api(input_filename, output_filename, pcb, loglevel):
                     break
         elif action == "g":
             exp = input(
-                "Please Enter a group" + " ".join(list(GROUP.keys())) + " or q[uit]?:"
+                "Please Enter a group one of: "
+                + " ".join(list(group.keys()))
+                + " or q[uit]?:"
             )
             while exp != "quit" or exp != "q":
                 try:
-                    regex = GROUP[exp]
+                    regex = group[exp]
                     for o in display_objects:
                         o.plot(regex)
                     o.show()
                 except KeyError:
                     print(f"Invalid group {exp}")
                 exp = input(
-                    "Please Enter a group"
-                    + " ".join(list(GROUP.keys()))
+                    "Please Enter a group one of: "
+                    + " ".join(list(group.keys()))
                     + " or q[uit]?:"
                 )
                 if exp == "q" or exp == "quit":
