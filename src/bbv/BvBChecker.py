@@ -4,6 +4,8 @@ import pandas as pd
 
 from bbv import __version__
 
+FILTER_LIST = ("(internal", "none")
+
 
 class BvBCHeck(object):
     def __init__(self, balls: pd.DataFrame, bumps: pd.DataFrame, data_set):
@@ -30,15 +32,22 @@ class BvBCHeck(object):
         }
         self.unique_bump_counter = Counter(self.bumps)
         # Diff of objects
-        self.bump_diff = self.unique_balls - self.unique_bumps
-        self.ball_diff = self.unique_bumps - self.unique_balls
+        self.bump_diff = self.unique_bumps - self.unique_balls
+        self.ball_diff = self.unique_balls - self.unique_bumps
         self.sym_diff = self.unique_balls ^ self.unique_bumps
-
-        # self.filtered_diff = {i for i in self.diff if not i.startswith('(internal')}
         pass
 
     def __repr__(self):
         return f"BvBCHeck ({self.num_unique_bumps},{self.num_unique_balls})"
+
+    def filter(self, filter_obj, filter_list):
+        filtered_obj = filter_obj
+        filtered = set()
+        for f in filter_list:
+            filter_set = {i for i in filter_obj if i.startswith(f)}
+            filtered_obj -= filter_set
+            filtered = filtered | filter_set
+        return (filtered_obj, filtered)
 
     def print_line(self):
         print(60 * "-")
@@ -52,10 +61,10 @@ class BvBCHeck(object):
             if number > 1:
                 print(f" {number} x {ball}")
 
-    def print_sym_diff(self, diffs):
-        self.print_line()
-        for diff in diffs:
-            print(diff)
+    # def print_sym_diff(self, diffs):
+    #     self.print_line()
+    #     for diff in diffs:
+    #         print(diff)
 
     def report(self):
         print("Program Version")
@@ -81,16 +90,26 @@ class BvBCHeck(object):
         self.section_break()
         print("Differances")
         self.print_line()
-        bump_diff_filtered = {
-            i for i in self.bump_diff if not i.startswith("(internal")
-        }
+        bump_diff_filtered, filtered = self.filter(self.bump_diff, FILTER_LIST)
         print(
             f"Ball Names found in bumps not in balls ( internal signals filtered):\n "
             f"{bump_diff_filtered}\n"
         )
+        print("\nNames of items filtered in the process:")
+        for f in filtered:
+            print(f)
+        print("\n")
         print(f"Ball Names found in balls not in bumps :\n {self.ball_diff}\n")
-        print("Symmetric Difference of balls and bumps ie nets NOT common to both:")
-        self.print_sym_diff(self.sym_diff)
+        print(
+            "Symmetric Difference of balls and bumps ie nets NOT common to "
+            "both with filtering on:"
+        )
+        sym_diff_filtered, filtered = self.filter(self.sym_diff, FILTER_LIST)
+        print(sym_diff_filtered)
+        print("\nNames of items filtered in the process:")
+        for f in filtered:
+            print(f)
+        print("\n")
         self.section_break()
 
         print("Ball count with signals > 1")

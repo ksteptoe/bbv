@@ -109,7 +109,7 @@ def bbv_api(
             balls.toggle_state()
             balls.status()
         elif action == "c":
-            bvbchecker = BvBCHeck(bum, ball, data_set)
+            bvbchecker = BvBCHeck(ball, bum, data_set)
             bvbchecker.report()
         elif action == "s":
             for o in display_objects:
