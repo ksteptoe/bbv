@@ -1,4 +1,5 @@
 from collections import Counter
+from datetime import datetime
 
 import pandas as pd
 
@@ -70,6 +71,7 @@ class BvBCHeck(object):
         print("Program Version")
         self.print_line()
         print(f"BumpvBall Checker Version: {__version__}\n")
+        print(f"Date Run: {datetime.today().strftime('%d/%m/%Y')}")
         self.section_break()
 
         print("Input Files Used:")
