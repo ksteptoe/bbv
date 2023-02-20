@@ -4,23 +4,18 @@ import pandas as pd
 from bbv.globals import X_BUMP_OFFSET, X_OFFSET, Y_BUMP_OFFSET, Y_OFFSET
 
 
-def bump_map(input_filename, sheet_name, output_filename, loglevel):
+def bump_map(input_filename, sheet_name, skiprows):
     """bump_map
 
     Args:
        input_filename:
-       output_filename:
        sheet_name:
-       output_filename:
-       pcb:
-       loglevel: int
+       skiprows: int
     """
 
-    if output_filename is None:
-        output_filename = input_filename
     df = pd.DataFrame()
     try:
-        df = pd.read_excel(input_filename, sheet_name=sheet_name, skiprows=4)
+        df = pd.read_excel(input_filename, sheet_name=sheet_name, skiprows=skiprows)
     except Exception as e:  # noqa: F841
         click.echo(
             click.style(f"{str(e)} Error on processing {input_filename}", fg="red")

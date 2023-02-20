@@ -6,16 +6,29 @@
 
 import logging
 import sys
+from collections import namedtuple
 
 import yaml
 
 from bbv import __version__
 from bbv.ball import ball_map
 from bbv.bump import bump_map
+from bbv.BvBChecker import BvBCHeck
 from bbv.Disp import Disp
 from bbv.globals import BALLS, BUMPS, GROUP, MARKER
 from bbv.Marker import Marker
 
+DataSet = namedtuple(
+    "DataSet",
+    [
+        "pcs_filename",
+        "pcs_sheetname",
+        "pcs_rowoffset",
+        "sondrel_filename",
+        "sondrel_sheetname",
+        "sondrel_rowoffset",
+    ],
+)
 _logger = logging.getLogger(__name__)
 
 
@@ -31,16 +44,29 @@ def setup_logging(loglevel):
     )
 
 
-def bbv_api(input_filename, output_filename, pcb, group_file, loglevel):
+def bbv_api(
+    pcs_filename,
+    sondrel_filename,
+    group_file,
+    pcs_rowoffset,
+    sondrel_rowoffset,
+    loglevel,
+    pcs_sheetname,
+    sondrel_sheetname,
+):
     """Wrapper allowing :func: $(package)
-    to be called with string arguments in a CLI fashion
+    to be called with arguments in a CLI fashion
 
      Args:
-        input_filename:
-        output_filename:
-        pcb: bool
+        pcs_filename: Path
+        sondrel_filename: Path
         group_file: click.File
+        rows: int
         loglevel: int
+        pcs_rowoffset: int
+        sondrel_rowoffset: int
+        pcs_sheetname: str
+        sondrel_sheetname: str
 
     """
     setup_logging(loglevel)
@@ -53,8 +79,16 @@ def bbv_api(input_filename, output_filename, pcb, group_file, loglevel):
             print(exc)
     else:
         group = GROUP
-    bum = bump_map(input_filename, "Bump List", output_filename, loglevel)
-    ball = ball_map(input_filename, "Ball Map (2)", output_filename, loglevel)
+    bum = bump_map(pcs_filename, pcs_sheetname, pcs_rowoffset)
+    ball = ball_map(sondrel_filename, sondrel_sheetname, sondrel_rowoffset)
+    data_set = DataSet(
+        pcs_filename,
+        pcs_sheetname,
+        pcs_rowoffset,
+        sondrel_filename,
+        sondrel_sheetname,
+        sondrel_rowoffset,
+    )
     b_marker = Marker("BUMP", "b_", bum, halo=5)
     B_marker = Marker("BALL", "B_", ball, halo=5)
 
@@ -64,7 +98,7 @@ def bbv_api(input_filename, output_filename, pcb, group_file, loglevel):
     ball_marker = Disp("BallArea", MARKER, B_marker.marker, 20)
     display_objects = (bumps, balls, bump_marker, ball_marker)
 
-    action = input("b[bump] B[all] e[xpression] g[roup] s[status] q[uit]?:")
+    action = input("b[bump] B[all] e[xpression] g[roup] s[status] c[check] q[uit]?:")
 
     exp = ""
     while action != "q":
@@ -74,6 +108,9 @@ def bbv_api(input_filename, output_filename, pcb, group_file, loglevel):
         elif action == "B":
             balls.toggle_state()
             balls.status()
+        elif action == "c":
+            bvbchecker = BvBCHeck(bum, ball, data_set)
+            bvbchecker.report()
         elif action == "s":
             for o in display_objects:
                 o.status()
@@ -107,6 +144,6 @@ def bbv_api(input_filename, output_filename, pcb, group_file, loglevel):
                 )
                 if exp == "q" or exp == "quit":
                     break
-        action = input("b[bump] B[all] e[xpression] g[roup] s[status] q[uit]?:")
+        action = input("b[bump] B[all] e[xpression] g[roup] s[status] c[heck] q[uit]?:")
 
     _logger.info("Script ends here")

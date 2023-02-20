@@ -19,34 +19,39 @@ _logger = logging.getLogger(__name__)
 
 
 @click.command()
-@click.argument("input_filename", type=click.Path(exists=True, readable=True))
-@click.argument("output_filename", type=click.Path(), required=False)
-@click.version_option(__version__, "--version")
+@click.argument("pcs_filename", type=click.Path(exists=True, readable=True))
+@click.argument("sondrel_filename", type=click.Path(exists=True, readable=True))
 @click.option(
-    "pcb",
-    "-p",
-    "--pcb",
-    is_flag=True,
-    show_default=True,
-    default=False,
-    help="PCB View flipped around x axis",
+    "-g", "--group", "group", type=click.File(mode="r"), required=False, default=None
 )
-@click.option("-g", "--group", "group", type=click.File(mode="r"), required=False)
+@click.option("-p", "--pcs_row_offset", type=int, required=False, default=4)
+@click.option("-u", "--pcs_sheet_name", type=str, required=False, default="Data")
+@click.option(
+    "-a", "--sondrel_sheet_name", type=str, required=False, default="Ball Map 2"
+)
+@click.option("-s", "--sondrel_row_offset", type=int, required=False, default=2)
 @click.option("-v", "--verbose", "loglevel", type=int, flag_value=logging.INFO)
-@click.option("-vv", "--very_verbose", "loglevel", type=int, flag_value=logging.DEBUG)
+@click.version_option(__version__, "--version")
 def cli(
-    input_filename: Path,
-    output_filename: str = None,
-    group: click.File = None,
-    pcb: bool = False,
+    pcs_filename: Path,
+    sondrel_filename: Path,
+    group: click.File,
+    pcs_row_offset: int,
+    pcs_sheet_name: str,
+    sondrel_sheet_name: str,
+    sondrel_row_offset: int,
     loglevel=logging.INFO,
 ):
-    """bbv
-
-    Reads an Excel file which contains ball ordering and displays them in a plot
-    Outputs ball co-ordinates
-    """
-    bbv_api(input_filename, output_filename, pcb, group, loglevel)
+    bbv_api(
+        pcs_filename,
+        sondrel_filename,
+        group,
+        pcs_row_offset,
+        sondrel_row_offset,
+        loglevel,
+        pcs_sheet_name,
+        sondrel_sheet_name,
+    )
 
 
 if __name__ == "__main__":

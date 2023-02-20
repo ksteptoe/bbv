@@ -35,8 +35,6 @@ class Disp(object):
         return (x, y)
 
     def marker(self, disp):
-        # self.size = 3
-        # plt.scatter(disp.x, disp.y, s=self.size)
         ordered = self.order_points(disp)
         self.connect_points(ordered[0], ordered[1])
 

@@ -4,14 +4,12 @@ import pandas as pd
 from bbv.globals import PITCH
 
 
-def ball_map(input_filename, sheet_name, output_filename, loglevel):
+def ball_map(input_filename, sheet_name, row_offset):
     """ball_map
 
     Args:
        input_filename:
-       output_filename:
        sheet_name:
-       output_filename:
        pcb:
        loglevel: int
     """
@@ -19,15 +17,13 @@ def ball_map(input_filename, sheet_name, output_filename, loglevel):
     ROW_NAMES = [chr(i) for i in range(ord("A"), ord("U"))]
     EXCLUDE_NAMES = ("I", "O", "Q", "S")
     ROW_NAMES = [e for e in ROW_NAMES if e not in EXCLUDE_NAMES]
-    if output_filename is None:
-        output_filename = input_filename
     df = pd.DataFrame()
     try:
         df = pd.read_excel(
             input_filename,
             sheet_name=sheet_name,
             usecols="C:R",
-            skiprows=[0],
+            skiprows=row_offset,
             nrows=16,
         )
         df.columns = COL_NAMES
