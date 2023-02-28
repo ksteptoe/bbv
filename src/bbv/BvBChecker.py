@@ -68,29 +68,24 @@ class BvBCHeck(object):
     #         print(diff)
 
     def report(self):
-        print("Program Version")
-        self.print_line()
-        print(f"BumpvBall Checker Version: {__version__}\n")
-        print(f"Date Run: {datetime.today().strftime('%d/%m/%Y')}")
-        self.section_break()
-
-        print("Input Files Used:")
-        self.print_line()
-        print(f'PCS_Filename: "{self.data_set.pcs_filename}"')
-        print(f'PCS_SheetName: "{self.data_set.pcs_sheetname}"')
-        print(f"PCS_RowOffset: {self.data_set.pcs_rowoffset}")
-        print(f'Sondrel_Filename: "{self.data_set.sondrel_filename}"')
-        print(f'Sondrel_SheetName: "{self.data_set.sondrel_sheetname}"')
-        print(f"Sondrel_RowOffset: {self.data_set.sondrel_rowoffset}\n")
-        self.section_break()
-        print("Bump and Ball Counts")
-        self.print_line()
+        print(f"bbv version: {__version__}")
+        print(f"{datetime.today().strftime('%d/%m/%Y')}")
+        print(
+            f'PCS_Filename: "{self.data_set.pcs_filename}" '
+            f'PCS_SheetName: "{self.data_set.pcs_sheetname}" '
+            f"PCS_RowOffset: {self.data_set.pcs_rowoffset}"
+        )
+        print(
+            f'Sondrel_Filename: "{self.data_set.sondrel_filename}" '
+            f'Sondrel_SheetName: "{self.data_set.sondrel_sheetname}" '
+            f"Sondrel_RowOffset: {self.data_set.sondrel_rowoffset}\n"
+        )
         print(f"Number of bumps: {self.num_bumps}")
         print(f"Number of balls: {self.num_balls}\n")
         print(f"Number of unique bumps: {self.num_bumps}")
         print(f"Number of unique balls: {self.num_unique_balls}\n")
         self.section_break()
-        print("Differances")
+        print("Differences")
         self.print_line()
         bump_diff_filtered, filtered = self.filter(self.bump_diff, FILTER_LIST)
         print(
@@ -112,10 +107,9 @@ class BvBCHeck(object):
         for f in filtered:
             print(f)
         print("\n")
-        self.section_break()
 
-        print("Ball count with signals > 1")
-        self.print_line()
-        self.print_ball_count(self.unique_balls_counter_ordered)
-        print()
-        self.print_line()
+        # print("Ball count with signals > 1")
+        # self.print_line()
+        # self.print_ball_count(self.unique_balls_counter_ordered)
+        # print()
+        # self.print_line()

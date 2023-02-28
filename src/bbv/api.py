@@ -80,7 +80,9 @@ def bbv_api(
     else:
         group = GROUP
     bum = bump_map(pcs_filename, pcs_sheetname, pcs_rowoffset)
+    bum.to_pickle("bum.pckl")
     ball = ball_map(sondrel_filename, sondrel_sheetname, sondrel_rowoffset)
+    ball.to_pickle("ball.pckl")
     data_set = DataSet(
         pcs_filename,
         pcs_sheetname,
